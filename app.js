@@ -3,18 +3,19 @@ const request = require('request');
 const dotenv = require('dotenv');
 const mongodb = require('mongodb');
 const express = require('express');
-
-
 dotenv.config();
 
+const weatherUrl=`http://api.openweathermap.org/data/2.5/weather?q=Delhi&appid=${process.env.WEATHER_API_KEY}&units=metric`
+const mongodbUrl =process.env.MONGO_URL;
+const telegramBotToken=process.env.BOT_TOKEN
 
-mongodb.MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, client) => {
+mongodb.MongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, client) => {
   if (err) throw err;
   const db = client.db('telegram-bot');
   const subscribers = db.collection('subscribers');
 
 
-  const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
+  const bot = new TelegramBot(telegramBotToken, { polling: true });
 
 
   bot.onText(/\/start/, (msg) => {
@@ -55,7 +56,7 @@ Use the /subscribers command to see the list of subscribed users.
   });
 
   bot.onText(/\/currenttemp/, (msg) => {
-    request(`http://api.openweathermap.org/data/2.5/weather?q=Delhi&appid=${process.env.WEATHER_API_KEY}&units=metric`, (err, res, body) => {
+    request(weatherUrl, (err, res, body) => {
       if (err) throw err;
       const weather = JSON.parse(body);
       const temperature = weather.main.temp;
@@ -78,6 +79,22 @@ Use the /subscribers command to see the list of subscribed users.
       }
     });
   });
+  function getTemperature() {
+    request(weatherUrl, function (err, res, body) {
+      if (!err && res.statusCode === 200) {
+        const weather = JSON.parse(body);
+        const temperature = weather.main.temp; 
+        const message = `The current temperature in Delhi is${temperature}°C.`;
+        subscribers.find({}).toArray((err, docs) => {
+          if (err) throw err;
+          docs.forEach((subscriber) => {
+            bot.sendMessage(subscriber.chatId, message);
+          });
+        });
+      }
+    });
+  }
+  setInterval(getTemperature, 3600000);
 
 
   const app = express();
