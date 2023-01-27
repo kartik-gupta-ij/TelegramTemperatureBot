@@ -1,11 +1,13 @@
-/**
- * This example demonstrates using polling.
- * It also demonstrates how you would process and send messages.
- */
+const TelegramBot = require('node-telegram-bot-api');
+
+const dotenv = require('dotenv');
+const mongodb = require('mongodb');
+const express = require('express');
+dotenv.config();
 
 
  const TOKEN = process.env.TELEGRAM_TOKEN || 'YOUR_TELEGRAM_BOT_TOKEN';
- const TelegramBot = require('..');
+
  const request = require('request');
  const options = {
    polling: true
