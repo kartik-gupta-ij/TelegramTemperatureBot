@@ -118,7 +118,7 @@ Use the /subscribers command to see the list of subscribed users.
   app.post(URI, async (req, res) => {
     console.log(req.body)
   })
-  app.listen(3000, () => {
+  app.listen(3000, async() => {
     console.log('Server listening on port 3000')
     await init()
   });
