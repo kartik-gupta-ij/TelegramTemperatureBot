@@ -22,7 +22,7 @@ This is a Telegram bot built with Node.js that allows users to subscribe to rece
 - `/unsubscribe`: Unsubscribes the user from receiving temperature updates
 - `/current-temp`: Sends the current temperature of the specified location to the user
 - `/subscribers`: Returns the list of subscribed users and their information
-- `/temp-update`: Send the temperature updates to all subscribers after every hour
+<!-- - `/temp-update`: Send the temperature updates to all subscribers after every hour -->
 
 ## Deployment
 - Deploy the bot on any hosting platform like Heroku, AWS, etc.
