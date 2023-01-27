@@ -16,18 +16,7 @@ const init = async () => {
     console.log(res.data)
 }
 
-app.post(URI, async (req, res) => {
-    console.log(req.body)
 
-    const chatId = req.body.message.chat.id
-    const text = req.body.message.text
-
-    await axios.post(`${TELEGRAM_API}/sendMessage`, {
-        chat_id: chatId,
-        text: text
-    })
-    return res.send()
-})
 
 app.listen(process.env.PORT || 5000, async () => {
     console.log('🚀 app running on port', process.env.PORT || 5000)
