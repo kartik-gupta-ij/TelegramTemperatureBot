@@ -1,5 +1,4 @@
 const TelegramBot = require('node-telegram-bot-api');
-// const { TelegramBot } = require("grammy");
 const request = require('request');
 const dotenv = require('dotenv');
 const mongodb = require('mongodb');
@@ -97,21 +96,4 @@ Use the /subscribers command to see the list of subscribed users.
     });
   }
   setInterval(getTemperature, 3600000);
-
-
-  const app = express();
-  app.get('/subscribers', (req, res) => {
-    subscribers.find({}).toArray((err, subscribers) => {
-      if (err) throw err;
-      res.json(subscribers);
-    });
-  });
-  app.post(URI, async (req, res) => {
-    console.log(req.body)
-    return res.send()
-})
-  app.listen(3000, () => {
-    console.log('Server listening on port 3000');
-  });
-
 });
