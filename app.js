@@ -1,13 +1,14 @@
 const TelegramBot = require('node-telegram-bot-api');
+// const { TelegramBot } = require("grammy");
 const request = require('request');
 const dotenv = require('dotenv');
 const mongodb = require('mongodb');
 const express = require('express');
 dotenv.config();
 
-const weatherUrl=`http://api.openweathermap.org/data/2.5/weather?q=Delhi&appid=${process.env.WEATHER_API_KEY}&units=metric`
-const mongodbUrl =process.env.MONGO_URL;
-const telegramBotToken=process.env.BOT_TOKEN
+const weatherUrl = `http://api.openweathermap.org/data/2.5/weather?q=Delhi&appid=${process.env.WEATHER_API_KEY}&units=metric`
+const mongodbUrl = process.env.MONGO_URL;
+const telegramBotToken = process.env.BOT_TOKEN
 
 mongodb.MongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, client) => {
   if (err) throw err;
@@ -79,11 +80,17 @@ Use the /subscribers command to see the list of subscribed users.
       }
     });
   });
+  bot.on('message', (msg) => {
+    const chatId = msg.chat.id;
+  
+    // send a message to the chat acknowledging receipt of their message
+    bot.sendMessage(chatId, 'Received your message');
+  });
   function getTemperature() {
     request(weatherUrl, function (err, res, body) {
       if (!err && res.statusCode === 200) {
         const weather = JSON.parse(body);
-        const temperature = weather.main.temp; 
+        const temperature = weather.main.temp;
         const message = `The current temperature in Delhi is${temperature}°C.`;
         subscribers.find({}).toArray((err, docs) => {
           if (err) throw err;
