@@ -4,6 +4,8 @@ const request = require('request');
 const dotenv = require('dotenv');
 const mongodb = require('mongodb');
 const express = require('express');
+const axios = require('axios')
+
 dotenv.config();
 
 
@@ -114,11 +116,11 @@ Use the /subscribers command to see the list of subscribed users.
   const init = async () => {
     const res = await axios.get(`${TELEGRAM_API}/setWebhook?url=${WEBHOOK_URL}`)
     console.log(res.data)
-}
+  }
   app.post(URI, async (req, res) => {
     console.log(req.body)
   })
-  app.listen(3000, async() => {
+  app.listen(3000, async () => {
     console.log('Server listening on port 3000')
     await init()
   });
