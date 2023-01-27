@@ -15,6 +15,7 @@ app.use(bodyParser.json())
 app.post(URI, async (req, res) => {
     console.log(req.body)
 
+    return res.send()
 })
 
 app.listen(process.env.PORT || 5000, async () => {
