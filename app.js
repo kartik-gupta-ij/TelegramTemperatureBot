@@ -6,9 +6,15 @@ const mongodb = require('mongodb');
 const express = require('express');
 dotenv.config();
 
+
+const { TOKEN, SERVER_URL } = process.env
+const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`
+const URI = `/webhook/${TOKEN}`
+const WEBHOOK_URL = SERVER_URL + URI
 const weatherUrl = `http://api.openweathermap.org/data/2.5/weather?q=Delhi&appid=${process.env.WEATHER_API_KEY}&units=metric`
 const mongodbUrl = process.env.MONGO_URL;
 const telegramBotToken = process.env.BOT_TOKEN
+
 
 mongodb.MongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, client) => {
   if (err) throw err;
@@ -105,8 +111,16 @@ Use the /subscribers command to see the list of subscribed users.
       res.json(subscribers);
     });
   });
+  const init = async () => {
+    const res = await axios.get(`${TELEGRAM_API}/setWebhook?url=${WEBHOOK_URL}`)
+    console.log(res.data)
+}
+  app.post(URI, async (req, res) => {
+    console.log(req.body)
+  })
   app.listen(3000, () => {
     console.log('Server listening on port 3000');
+    await init()
   });
 
 });
