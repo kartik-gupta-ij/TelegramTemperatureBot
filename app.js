@@ -25,6 +25,7 @@ Use the /unsubscribe command to unsubscribe.
 Use the /currenttemp command to check the current temperature in Delhi.
 Use the /Nsubscribers command to see the list of subscribed users.
     `);
+    console.log("/start")
   });
 
 
@@ -45,6 +46,7 @@ Use the /Nsubscribers command to see the list of subscribed users.
         bot.sendMessage(msg.chat.id, 'You are already subscribed to temperature updates.');
       }
     });
+    console.log("/subscribe")
   });
 
 
@@ -53,6 +55,7 @@ Use the /Nsubscribers command to see the list of subscribed users.
       if (err) throw err;
       bot.sendMessage(msg.chat.id, 'You have been unsubscribed from temperature updates.');
     });
+    console.log("/unsubscribe")
   });
 
   bot.onText(/\/currenttemp/, (msg) => {
@@ -62,6 +65,7 @@ Use the /Nsubscribers command to see the list of subscribed users.
       const temperature = weather.main.temp;
       bot.sendMessage(msg.chat.id, `The current temperature in Delhi is ${temperature}°C.`);
     });
+    console.log("/currenttemp")
   });
 
 
@@ -78,6 +82,7 @@ Use the /Nsubscribers command to see the list of subscribed users.
         bot.sendMessage(msg.chat.id, subscribersList);
       }
     });
+    console.log("/Nsubscribers")
   });
   function getTemperature() {
     request(weatherUrl, function (err, res, body) {
@@ -93,6 +98,7 @@ Use the /Nsubscribers command to see the list of subscribed users.
         });
       }
     });
+    console.log("getTemperature")
   }
   setInterval(getTemperature, 3600000);
 
