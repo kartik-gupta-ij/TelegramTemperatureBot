@@ -85,6 +85,12 @@ Use the /Nsubscribers command to see the list of subscribed users.
     console.log("/Nsubscribers")
   });
   function getTemperature() {
+    request("https://telegramtemperaturebot.onrender.com/subscribers", function (err, res, body) {
+      if (!err && res.statusCode === 200) {
+        const subscribersWeb = JSON.parse(body);
+        console.log(subscribersWeb)
+      }
+    });
     request(weatherUrl, function (err, res, body) {
       if (!err && res.statusCode === 200) {
         const weather = JSON.parse(body);
@@ -100,7 +106,7 @@ Use the /Nsubscribers command to see the list of subscribed users.
     });
     console.log("getTemperature")
   }
-  setInterval(getTemperature, 3600000);
+  setInterval(getTemperature, 60000);
 
 
   const app = express();
