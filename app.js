@@ -23,7 +23,7 @@ mongodb.MongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, clie
 Use the /subscribe command to subscribe to temperature updates.
 Use the /unsubscribe command to unsubscribe.
 Use the /currenttemp command to check the current temperature in Delhi.
-Use the /subscribers command to see the list of subscribed users.
+Use the /Nsubscribers command to see the list of subscribed users.
     `);
   });
 
@@ -65,7 +65,7 @@ Use the /subscribers command to see the list of subscribed users.
   });
 
 
-  bot.onText(/\/subscribers/, (msg) => {
+  bot.onText(/\/Nsubscribers/, (msg) => {
     subscribers.find({}).toArray((err, subscribers) => {
       if (err) throw err;
       if (subscribers.length === 0) {
