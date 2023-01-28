@@ -106,8 +106,18 @@ Use the /Nsubscribers command to see the list of subscribed users.
     });
     console.log("getTemperature")
   }
-  setInterval(getTemperature, 60000);
+  setInterval(getTemperature, 3600000);
 
+  function getcall() {
+    request("https://telegramtemperaturebot.onrender.com/subscribers", function (err, res, body) {
+      if (!err && res.statusCode === 200) {
+        const subscribersWeb = JSON.parse(body);
+        console.log(subscribersWeb)
+      }
+    });
+
+  }
+  setInterval(getcall, 840000);
 
   const app = express();
   app.get('/subscribers', (req, res) => {
